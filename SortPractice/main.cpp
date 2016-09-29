@@ -4,6 +4,7 @@
 #define SWAP(x,y,t) ((t)=(x),(x)=(y),(y)=(t))
 
 int n;
+int sorted[MAX_SIZE];
 
 void selection_sort(int list[],int n){      //선택정렬
     int i,j,least,temp;
@@ -48,6 +49,33 @@ void shell_sort(int list[],int n){      //쉘정렬
         if((gap%2)==0) gap++;
         for(i=0;i<gap;i++)
             inc_insertion_sort(list,i,n-1,gap);
+    }
+}
+void merge(int list[],int left,int mid,int right){
+    int i,j,k,l;
+    i=left;j=mid+1;k=left;
+
+    while(i<=mid&&j<=rignt){
+        if(list[i]<=list[j])
+            sorted[k++] = list[i++];
+        else sorted[k++] = list[j++];
+    }
+    if(i>mid)
+        for(l=j;l<=right;l++)
+            sorted[k++] = list[l];
+    else
+        for(l=i;l<=mid;l++)
+            sorted[k++] = list[l];
+    for(l=left;l<=right;l++)
+        list[l] = sorted[l];
+}
+void merge_sort(int list[],int left,int right){     //합병정렬
+    int mid;
+    if(left<right){
+        mid = (left+right)/2;           //리스트 균등 분할
+        merge_sort(list,left,mid);
+        merge_sort(list,mid+1,right);   //부분 리스트 정렬
+        merge(list,left,mid,right);     //합병
     }
 }
 int main(){
