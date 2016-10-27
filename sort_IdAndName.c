@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #define MAX_NAME 20
 #define MAX 100
 
@@ -222,23 +223,9 @@ void quick_sort(element arr[],int left,int right,int n) {
 	}
 }
 
-void file() {
-
-}
-
-void keyboard() {
-	element arr[MAX];
-	int num,n;
-	int i=0;
+void sortSwitch(element arr[],int num) {
+	int n;
 	char sort;
-	printf("데이터의 갯수는? >> ");
-	scanf("%d",&num);
-	printf("id, 이름 순으로 데이터를 입력하라.\n");
-	
-	while(num!=i) {
-		scanf("%d %s",&arr[i].id,arr[i].name);
-		i++;
-	}
 
 	printf("오름차순 : 1\n내림차순 : 2 \n >> ");
 	scanf("%d",&n);
@@ -259,6 +246,48 @@ void keyboard() {
 
 	printf("정렬 후 >> \n");
 	print(arr,num);
+}
+
+void file() {	
+	FILE *fp;
+	char *fileName;
+	element arr[MAX];
+	int num,i=0;
+
+	fileName = (char *)malloc(sizeof(char)*100);
+
+	printf("파일 이름은?(확장자 명까지 입력) >> ");
+	scanf("%s",fileName);
+
+	fp = fopen(fileName,"r");
+	if(fp==NULL) {
+		printf("%s 이름의 파일이 없습니다.\n",fileName);
+		exit(1);
+	}
+	fscanf(fp,"%d\n",&num);
+	while(!feof(fp)) {
+		fscanf(fp,"%d %s",&arr[i].id,arr[i].name);
+		i++;
+	}
+
+	sortSwitch(arr,num);
+	fclose(fp);
+}
+
+void keyboard() {
+	element arr[MAX];
+	int num,i=0;
+
+	printf("데이터의 갯수는? >> ");
+	scanf("%d",&num);
+	printf("id, 이름 순으로 데이터를 입력하라.\n");
+	
+	while(num!=i) {
+		scanf("%d %s",&arr[i].id,arr[i].name);
+		i++;
+	}
+
+	sortSwitch(arr,num);
 }
 
 int main() {
